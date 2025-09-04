@@ -1,57 +1,57 @@
 const pool = require('../config/database.js');
 
-const getAllGeneros = async () => {
+const getAllVeiculos = async () => {
     const result = await pool.query(`
-        SELECT * FROM generos
+        SELECT * FROM veiculos
     `);
     return result.rows;
 };
 
-const getGeneroById = async (id) => {
+const getVeiculoById = async (id) => {
     try {
         const result = await pool.query(`
-            SELECT * FROM generos WHERE id = $1
+            SELECT * FROM veiculos WHERE id = $1
         `, [id]);
 
         return result.rows[0];
     } catch (error) {
-        console.error('Erro ao buscar gênero por ID:', error);
+        console.error('Erro ao buscar veículo por ID:', error);
         throw error;
     }
 };
 
-const createGenero = async (genero, subgenero, descricao) => {
+const createVeiculo = async (veiculo, subveiculo, descricao) => {
     const result = await pool.query(`
-        INSERT INTO generos (genero, subgenero, descricao)
+        INSERT INTO veiculos (veiculo, subveiculo, descricao)
         VALUES ($1, $2, $3) RETURNING *
-    `, [genero, subgenero, descricao]);
+    `, [veiculo, subveiculo, descricao]);
 
     return result.rows[0];
 };
 
-const updateGenero = async (id, {genero, subgenero, descricao}) => {
+const updateVeiculo = async (id, { veiculo, subveiculo, descricao }) => {
     const result = await pool.query(`
-        UPDATE generos SET genero = $1, subgenero = $2, descricao = $3
+        UPDATE veiculos SET veiculo = $1, subveiculo = $2, descricao = $3
         WHERE id = $4 RETURNING *
-    `, [genero, subgenero, descricao, id]);
+    `, [veiculo, subveiculo, descricao, id]);
 
     return result.rows[0];
 };
 
-const deleteGenero = async (id) => {
+const deleteVeiculo = async (id) => {
     const result = await pool.query(`
-        DELETE FROM generos WHERE id = $1 RETURNING *
+        DELETE FROM veiculos WHERE id = $1 RETURNING *
     `, [id]);
     if (result.rowCount === 0) {
-        return { error: 'Gênero não encontrado' };
+        return { error: 'Veículo não encontrado' };
     }
-    return { message: 'Gênero deletado com sucesso' };
+    return { message: 'Veículo deletado com sucesso' };
 };
 
 module.exports = {
-    getAllGeneros,
-    getGeneroById,
-    createGenero,
-    updateGenero,
-    deleteGenero
-}
+    getAllVeiculos,
+    getVeiculoById,
+    createVeiculo,
+    updateVeiculo,
+    deleteVeiculo
+};

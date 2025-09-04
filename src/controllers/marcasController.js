@@ -2,7 +2,7 @@ const marcasModel = require('../models/marcasModel');
 
 const getAllmarcas = async (req, res) => {
     try {
-        const {classificacaoIndicativa} = req.query
+        const { classificacaoIndicativa } = req.query;
         const marcas = await marcasModel.getAllmarcas(classificacaoIndicativa);
         res.json(marcas);
     } catch (error) {
@@ -10,60 +10,60 @@ const getAllmarcas = async (req, res) => {
     }
 };
 
-const getFilmeById = async (req, res) => {
+const getMarcaById = async (req, res) => {
     try {
-        const filme = await marcasModel.getFilmeById(req.params.id);
-        if (!filme) {
-            return res.status(404).json({ error: 'Filme não encontrado.' });
+        const marca = await marcasModel.getMarcaById(req.params.id);
+        if (!marca) {
+            return res.status(404).json({ error: 'Marca não encontrada.' });
         }
-        res.json(filme);
+        res.json(marca);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar filme.' });
+        res.status(500).json({ error: 'Erro ao buscar marca.' });
     }
-}
+};
 
-const createFilme = async (req, res) => {
+const createMarca = async (req, res) => {
     try {
         const { name, autor, classificacaoIndicativa } = req.body;
         const photo = req.file ? req.file.filename : null;
-        const novoFilme = await marcasModel.createFilme(name, autor, photo, classificacaoIndicativa);
-        res.status(201).json(novoFilme);
+        const novaMarca = await marcasModel.createMarca(name, autor, photo, classificacaoIndicativa);
+        res.status(201).json(novaMarca);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar filme' });
+        res.status(500).json({ error: 'Erro ao criar marca' });
     }
 };
 
-const updateFilme = async (req, res) => {
+const updateMarca = async (req, res) => {
     const { id } = req.params;
     const { name, autor, photo, classificacaoIndicativa } = req.body;
     try {
-        const filmeAtualizado = await marcasModel.updateFilme(id, name, autor, photo, classificacaoIndicativa);
-        if (!filmeAtualizado) {
-            return res.status(404).json({ error: 'Filme não encontrado' });
+        const marcaAtualizada = await marcasModel.updateMarca(id, name, autor, photo, classificacaoIndicativa);
+        if (!marcaAtualizada) {
+            return res.status(404).json({ error: 'Marca não encontrada' });
         }
-        res.json(filmeAtualizado);
+        res.json(marcaAtualizada);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar filme' });
+        res.status(500).json({ error: 'Erro ao atualizar marca' });
     }
 };
 
-const deleteFilme = async (req, res) => {
+const deleteMarca = async (req, res) => {
     try {
-        const result = await marcasModel.deleteFilme(req.params.id);
+        const result = await marcasModel.deleteMarca(req.params.id);
         if (result.error) {
             return res.status(404).json(result);
         }
         res.json(result);
     } catch (error) {
-        console.error("Erro ao deletar filme:", error);
-        res.status(500).json({ error: 'Erro ao deletar filme' });
+        console.error("Erro ao deletar marca:", error);
+        res.status(500).json({ error: 'Erro ao deletar marca' });
     }
 };
 
 module.exports = {
     getAllmarcas,
-    getFilmeById,
-    createFilme,
-    updateFilme,
-    deleteFilme
+    getMarcaById,
+    createMarca,
+    updateMarca,
+    deleteMarca
 };
