@@ -1,64 +1,51 @@
-CREATE DATABASE cinema;
-\c cinema
+CREATE DATABASE loja_veiculos;
+\c loja_veiculos
 
-CREATE TABLE filmes (
+CREATE TABLE marcas (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    autor VARCHAR(200) NOT NULL,
-    photo TEXT,
-    classificacaoIndicativa VARCHAR(10)
+    nome VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE generos (
+CREATE TABLE veiculos (
     id SERIAL PRIMARY KEY,
-    genero VARCHAR(200) NOT NULL,
-    subgenero VARCHAR(200),
-    descricao TEXT,
-    filmes_id INTEGER REFERENCES filmes(id) ON DELETE CASCADE
+    modelo VARCHAR(100) NOT NULL,
+    ano INTEGER NOT NULL,
+    preco DECIMAL(12,2) NOT NULL,
+    cor VARCHAR(50),
+    marca_id INTEGER NOT NULL REFERENCES marcas(id) ON DELETE CASCADE,
+    descricao TEXT
 );
 
-INSERT INTO filmes (name, autor, photo, classificacaoIndicativa) VALUES 
-('Hellboy', 'Mike Mignola', 'https://upload.wikimedia.org/wikipedia/pt/thumb/0/08/Hellboy_%282019%29.jpg/250px-Hellboy_%282019%29.jpg', '18+'),
-('Rambo', 'David Morrell', 'https://br.web.img3.acsta.net/medias/nmedia/18/97/40/18/20527154.jpg', '16+'),
-('Intocáveis', 'Philippe Pozzo di Borgo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUkfQb28gNUmcIQFvyvbANLiPIVkunypxV8w&s', '12+'),
-('Vizinhos', 'Paulo Cursino', 'https://i.ytimg.com/vi/r5ZIRVz734Y/maxresdefault.jpg', '14+'),
-('A proposta', 'Anne Fletcher', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', '10+'),
-('Avengers: Ultimato', 'Marvel', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', 'L'),
-('Hellboy', 'Mike Mignola', 'https://upload.wikimedia.org/wikipedia/pt/thumb/0/08/Hellboy_%282019%29.jpg/250px-Hellboy_%282019%29.jpg', '18+'),
-('Rambo', 'David Morrell', 'https://br.web.img3.acsta.net/medias/nmedia/18/97/40/18/20527154.jpg', '16+'),
-('Intocáveis', 'Philippe Pozzo di Borgo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUkfQb28gNUmcIQFvyvbANLiPIVkunypxV8w&s', '12+'),
-('Vizinhos', 'Paulo Cursino', 'https://i.ytimg.com/vi/r5ZIRVz734Y/maxresdefault.jpg', '14+'),
-('A proposta', 'Anne Fletcher', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', '10+'),
-('Avengers: Ultimato', 'Marvel', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', 'L'),
-('Hellboy', 'Mike Mignola', 'https://upload.wikimedia.org/wikipedia/pt/thumb/0/08/Hellboy_%282019%29.jpg/250px-Hellboy_%282019%29.jpg', '18+'),
-('Rambo', 'David Morrell', 'https://br.web.img3.acsta.net/medias/nmedia/18/97/40/18/20527154.jpg', '16+'),
-('Intocáveis', 'Philippe Pozzo di Borgo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUkfQb28gNUmcIQFvyvbANLiPIVkunypxV8w&s', '12+'),
-('Vizinhos', 'Paulo Cursino', 'https://i.ytimg.com/vi/r5ZIRVz734Y/maxresdefault.jpg', '14+'),
-('A proposta', 'Anne Fletcher', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', '10+'),
-('Avengers: Ultimato', 'Marvel', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', 'L'),
-('A proposta', 'Anne Fletcher', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', '10+'),
-('Avengers: Ultimato', 'Marvel', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ClZe3lSEeEgIGPYNNO2DLOWHCLHKXsperg&s', 'L'),
-('Hellboy', 'Mike Mignola', 'https://upload.wikimedia.org/wikipedia/pt/thumb/0/08/Hellboy_%282019%29.jpg/250px-Hellboy_%282019%29.jpg', '18+');
+INSERT INTO marcas (nome) VALUES
+('Chevrolet'),
+('Volkswagen'),
+('Fiat'),
+('Ford'),
+('Toyota'),
+('Honda'),
+('Hyundai'),
+('Renault'),
+('Nissan'),
+('Jeep');
 
-INSERT INTO generos (genero, subgenero, descricao) VALUES 
-('Ação', 'Aventura', 'Filmes de ação são caracterizados por sequências de ação intensas e emocionantes.'),
-('Terror', 'Suspense', 'Filmes de terror são projetados para provocar medo e tensão no público.'),
-('Drama', 'Romance', 'Filmes de drama geralmente exploram temas emocionais e relacionamentos humanos.'),
-('Comédia', 'Romântica', 'Filmes de comédia romântica combinam romance e humor.'),
-('Aventura', 'Fantasia', 'Filmes de aventura muitas vezes envolvem jornadas épicas e mundos imaginários.'),
-('Ação', 'Aventura', 'Filmes de ação são caracterizados por sequências de ação intensas e emocionantes.'),
-('Terror', 'Suspense', 'Filmes de terror são projetados para provocar medo e tensão no público.'),
-('Drama', 'Romance', 'Filmes de drama geralmente exploram temas emocionais e relacionamentos humanos.'),
-('Comédia', 'Romântica', 'Filmes de comédia romântica combinam romance e humor.'),
-('Aventura', 'Fantasia', 'Filmes de aventura muitas vezes envolvem jornadas épicas e mundos imaginários.'),
-('Ação', 'Aventura', 'Filmes de ação são caracterizados por sequências de ação intensas e emocionantes.'),
-('Terror', 'Suspense', 'Filmes de terror são projetados para provocar medo e tensão no público.'),
-('Drama', 'Romance', 'Filmes de drama geralmente exploram temas emocionais e relacionamentos humanos.'),
-('Comédia', 'Romântica', 'Filmes de comédia romântica combinam romance e humor.'),
-('Aventura', 'Fantasia', 'Filmes de aventura muitas vezes envolvem jornadas épicas e mundos imaginários.'),
-('Ação', 'Aventura', 'Filmes de ação são caracterizados por sequências de ação intensas e emocionantes.'),
-('Terror', 'Suspense', 'Filmes de terror são projetados para provocar medo e tensão no público.'),
-('Drama', 'Romance', 'Filmes de drama geralmente exploram temas emocionais e relacionamentos humanos.'),
-('Comédia', 'Romântica', 'Filmes de comédia romântica combinam romance e humor.'),
-('Aventura', 'Fantasia', 'Filmes de aventura muitas vezes envolvem jornadas épicas e mundos imaginários.'),
-('Aventura', 'Fantasia', 'Filmes de aventura muitas vezes envolvem jornadas épicas e mundos imaginários.');
+INSERT INTO veiculos (modelo, ano, preco, cor, marca_id, descricao) VALUES
+('Onix LT', 2022, 65000.00, 'Prata', 1, 'Hatch compacto econômico'),
+('Prisma LTZ', 2020, 58000.00, 'Preto', 1, 'Sedan confortável e espaçoso'),
+('Gol G6', 2019, 42000.00, 'Branco', 2, 'Popular, ótimo para cidade'),
+('Polo Highline', 2021, 78000.00, 'Azul', 2, 'Tecnologia e desempenho'),
+('Argo Drive', 2022, 69000.00, 'Vermelho', 3, 'Design moderno e eficiente'),
+('Uno Mille', 2015, 25000.00, 'Prata', 3, 'Econômico e fácil de manter'),
+('Ka SE', 2021, 54000.00, 'Cinza', 4, 'Compacto e ágil'),
+('EcoSport Freestyle', 2018, 67000.00, 'Preto', 4, 'SUV urbano'),
+('Corolla GLi', 2020, 95000.00, 'Branco', 5, 'Sedan médio, referência em conforto'),
+('Yaris XS', 2021, 83000.00, 'Prata', 5, 'Compacto premium'),
+('Civic EXL', 2019, 99000.00, 'Preto', 6, 'Sedan esportivo e confortável'),
+('Fit LX', 2018, 65000.00, 'Azul', 6, 'Versatilidade e espaço interno'),
+('HB20 Comfort', 2022, 72000.00, 'Vermelho', 7, 'Hatch moderno e econômico'),
+('Creta Prestige', 2021, 115000.00, 'Branco', 7, 'SUV completo'),
+('Sandero Stepway', 2020, 59000.00, 'Cinza', 8, 'Aventura urbana'),
+('Logan Expression', 2019, 48000.00, 'Prata', 8, 'Sedan acessível'),
+('Kicks SV', 2021, 105000.00, 'Preto', 9, 'SUV moderno e seguro'),
+('Versa Unique', 2020, 67000.00, 'Branco', 9, 'Sedan espaçoso'),
+('Renegade Longitude', 2022, 129000.00, 'Vermelho', 10, 'SUV robusto e tecnológico'),
+('Compass Limited', 2021, 165000.00, 'Cinza', 10, 'SUV premium');
