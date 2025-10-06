@@ -38,19 +38,19 @@ const getVeiculoById = async (id) => {
     return result.rows[0];
 };
 
-const createVeiculo = async (modelo, ano, preco, cor, marca_id, descricao) => {
-    const result = await pool.query(`
-        INSERT INTO veiculos (modelo, ano, preco, cor, marca_id, descricao)
-        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
-    `, [modelo, ano, preco, cor, marca_id, descricao]);
+const createVeiculo = async (modelo, ano, preco, cor, marca_id, descricao, photo) => {
+    const result = await pool.query(
+        "INSERT INTO veiculos (modelo, ano, preco, cor, marca_id, descricao, photo) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        [modelo, ano, preco, cor, marca_id, descricao, photo]
+    );
     return result.rows[0];
 };
 
-const updateVeiculo = async (id, modelo, ano, preco, cor, marca_id, descricao) => {
-    const result = await pool.query(`
-        UPDATE veiculos SET modelo = $1, ano = $2, preco = $3, cor = $4, marca_id = $5, descricao = $6
-        WHERE id = $7 RETURNING *
-    `, [modelo, ano, preco, cor, marca_id, descricao, id]);
+const updateVeiculo = async (id, modelo, ano, preco, cor, marca_id, descricao, photo) => {
+    const result = await pool.query(
+        "UPDATE veiculos SET modelo = $1, ano = $2, preco = $3, cor = $4, marca_id = $5, descricao = $6, photo = $7 WHERE id = $8 RETURNING *",
+        [modelo, ano, preco, cor, marca_id, descricao, photo, id]
+    );
     return result.rows[0];
 };
 

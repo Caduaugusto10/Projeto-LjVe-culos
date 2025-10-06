@@ -9,7 +9,7 @@ router.get('/:id', veiculosController.getVeiculoById);
 
 router.post('/', upload.single("photo"), veiculosController.createVeiculo);
 
-router.put('/:id', veiculosController.updateveiculo);
+router.put('/:id', upload.single("photo"), veiculosController.updateveiculo);
 
 router.delete('/:id', veiculosController.deleteveiculo);
 

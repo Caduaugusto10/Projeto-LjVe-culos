@@ -28,27 +28,23 @@ const getVeiculoById = async (req, res) => {
 const createVeiculo = async (req, res) => {
     try {
         const { modelo, ano, preco, cor, marca_id, descricao } = req.body;
-        if (!modelo || !ano || !preco || !marca_id) {
-            return res.status(400).json({ error: 'modelo, ano, preco e marca_id são obrigatórios' });
-        }
-        const novo = await veiculosModel.createVeiculo(modelo, ano, preco, cor, marca_id, descricao);
-        res.status(201).json(novo);
+        const photo = req.file ? req.file.filename : null;
+        const novoVeiculo = await veiculosModel.createVeiculo(modelo, ano, preco, cor, marca_id, descricao, photo);
+        res.status(201).json(novoVeiculo);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar veículo' });
+        res.status(500).json({ message: "Erro ao criar veículo.", error: error.message });
     }
 };
 
 const updateveiculo = async (req, res) => {
-    const { id } = req.params;
-    const { modelo, ano, preco, cor, marca_id, descricao } = req.body;
     try {
-        const veiculoAtualizado = await veiculosModel.updateVeiculo(id, modelo, ano, preco, cor, marca_id, descricao);
-        if (!veiculoAtualizado) {
-            return res.status(404).json({ error: 'Veículo não encontrado' });
-        }
-        res.json(veiculoAtualizado);
+        const { id } = req.params;
+        const { modelo, ano, preco, cor, marca_id, descricao } = req.body;
+        const photo = req.file ? req.file.filename : req.body.photo;
+        const veiculoAtualizado = await veiculosModel.updateVeiculo(id, modelo, ano, preco, cor, marca_id, descricao, photo);
+        res.status(200).json(veiculoAtualizado);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar veículo' });
+        res.status(500).json({ message: "Erro ao atualizar veículo.", error: error.message });
     }
 };
 

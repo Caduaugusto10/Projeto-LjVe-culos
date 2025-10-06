@@ -25,25 +25,23 @@ const getMarcaById = async (req, res) => {
 const createMarca = async (req, res) => {
     try {
         const { nome } = req.body;
-        if (!nome) return res.status(400).json({ error: 'Nome é obrigatório' });
-        const novaMarca = await marcasModel.createMarca(nome);
+        const photo = req.file ? req.file.filename : null;
+        const novaMarca = await marcasModel.createMarca(nome, photo);
         res.status(201).json(novaMarca);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar marca' });
+        res.status(500).json({ message: "Erro ao criar marca.", error: error.message });
     }
 };
 
 const updateMarca = async (req, res) => {
-    const { id } = req.params;
-    const { nome } = req.body;
     try {
-        const marcaAtualizada = await marcasModel.updateMarca(id, nome);
-        if (!marcaAtualizada) {
-            return res.status(404).json({ error: 'Marca não encontrada' });
-        }
-        res.json(marcaAtualizada);
+        const { id } = req.params;
+        const { nome } = req.body;
+        const photo = req.file ? req.file.filename : req.body.photo;
+        const marcaAtualizada = await marcasModel.updateMarca(id, nome, photo);
+        res.status(200).json(marcaAtualizada);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar marca' });
+        res.status(500).json({ message: "Erro ao atualizar marca.", error: error.message });
     }
 };
 
