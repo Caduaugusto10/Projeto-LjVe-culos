@@ -15,7 +15,7 @@ const upload = multer({
     storage,
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname);
-        if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png") {
+        if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".webp" && ext !== ".jfif") {
             return cb(new Error("Apenas imagens são permitidas"));
         }
         cb(null, true);
